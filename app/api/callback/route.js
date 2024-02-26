@@ -1,6 +1,6 @@
 import loadStytch from "@/utils/loadStytch";
 import { redirect } from "next/navigation";
-import { setIntermediateSession, setOrganization, setSession } from "@/utils/sessionManagement";
+import { SESSION_DURATION_MINUTES, setIntermediateSession, setOrganization, setSession } from "@/utils/sessionManagement";
 
 async function authenticateDiscoveryMagicLink(stytchClient, token) {
     const authRes = await stytchClient.magicLinks.discovery.authenticate({
@@ -21,7 +21,7 @@ async function authenticateDiscoveryOauth(stytchClient, token) {
 async function authenticateOauth(stytchClient, token, slug) {
     const authRes = await stytchClient.oauth.authenticate({
    	 oauth_token: token,
-   	 session_duration_minutes: 60,
+   	 session_duration_minutes: SESSION_DURATION_MINUTES,
     });
     setSession(authRes.session_jwt);
     await setOrgIdCookie(stytchClient, slug);
@@ -31,7 +31,7 @@ async function authenticateOauth(stytchClient, token, slug) {
 async function authenticateOrgMagicLink(stytchClient, token, slug) {
     const authRes = await stytchClient.magicLinks.authenticate({
    	 magic_links_token: token,
-   	 session_duration_minutes: 60,
+   	 session_duration_minutes: SESSION_DURATION_MINUTES,
     });
     setSession(authRes.session_jwt);
     await setOrgIdCookie(stytchClient, slug);

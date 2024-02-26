@@ -1,5 +1,6 @@
 import loadStytch from "@/utils/loadStytch";
 import {
+	SESSION_DURATION_MINUTES,
     clearIntermediateSession,
     clearSession,
     getDiscoverySessionData,
@@ -62,7 +63,7 @@ export async function GET(request, { params }) {
            		 intermediate_session_token:
                		 discoverySessionData.intermediateSession.value,
            		 organization_id: orgId,
-           		 session_duration_minutes: 60,
+           		 session_duration_minutes: SESSION_DURATION_MINUTES,
        		 });
    		 }
 

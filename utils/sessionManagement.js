@@ -1,8 +1,8 @@
 import { cookies } from "next/headers";
 import loadStytch from "./loadStytch";
 
-const SESSION_DURATION_MINUTES = 60;
-const INTERMEDIATE_SESSION_DURATION_MINUTES = 10;
+export const SESSION_DURATION_MINUTES = 60;
+export const INTERMEDIATE_SESSION_DURATION_MINUTES = 10;
 
 const SESSION_COOKIE = "session";
 const INTERMEDIATE_SESSION_COOKIE = "intermediate_session";
@@ -74,7 +74,7 @@ export function getOrganization() {
 export function setOrganization(organizationId) {
 	cookies().set("organization_id", organizationId, {
 		httpOnly: true,
-		maxAge: 60 * 60,
+		maxAge: 60 * SESSION_DURATION_MINUTES,
 	});
 }
 
