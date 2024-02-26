@@ -7,6 +7,10 @@ const INTERMEDIATE_SESSION_DURATION_MINUTES = 10;
 const SESSION_COOKIE = "session";
 const INTERMEDIATE_SESSION_COOKIE = "intermediate_session";
 
+export function getSession() {
+	return cookies().get("session");
+}
+
 export function setSession(sessionJWT) {
     cookies().set(SESSION_COOKIE, sessionJWT, {
    	 httpOnly: true,
@@ -19,6 +23,10 @@ export function clearSession() {
    	 maxAge: 0,
    	 httpOnly: true,
     });
+}
+
+export function getIntermediateSession() {
+	return cookies().get("intermediate_session");
 }
 
 export function setIntermediateSession(intermediateSessionToken) {
@@ -57,6 +65,17 @@ export function getDiscoverySessionData() {
    	 };
     }
     return { error: true };
+}
+
+export function getOrganization() {
+	return cookies().get("organization_id");
+}
+
+export function setOrganization(organizationId) {
+	cookies().set("organization_id", organizationId, {
+		httpOnly: true,
+		maxAge: 60 * 60,
+	});
 }
 
 export function revokeSession(sessionJWT) {

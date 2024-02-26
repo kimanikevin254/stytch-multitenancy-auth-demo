@@ -1,7 +1,6 @@
 import loadStytch from "@/utils/loadStytch";
 import { redirect } from "next/navigation";
-import { setIntermediateSession, setSession } from "@/utils/sessionManagement";
-import { cookies } from "next/headers";
+import { setIntermediateSession, setOrganization, setSession } from "@/utils/sessionManagement";
 
 async function authenticateDiscoveryMagicLink(stytchClient, token) {
     const authRes = await stytchClient.magicLinks.discovery.authenticate({
@@ -54,10 +53,7 @@ async function setOrgIdCookie(client, slug) {
 
     if (organizations.length > 0) {
    	 // Set cookie org cookie
-   	 cookies().set("organization_id", organizations[0].organization_id, {
-   		 httpOnly: true,
-   		 maxAge: 60 * 60,
-   	 });
+   	 setOrganization(organizations[0].organization_id)
     }
 }
 

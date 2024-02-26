@@ -1,11 +1,10 @@
 import loadStytch from "@/utils/loadStytch";
-import { cookies } from "next/headers";
+import { getIntermediateSession } from "@/utils/sessionManagement";
 
 export async function GET(request) {
     const stytchClient = loadStytch();
 
-    const cookieStore = cookies();
-    const intermediate_session_cookie = cookieStore.get("intermediate_session");
+    const intermediate_session_cookie = getIntermediateSession()
 
     if (!intermediate_session_cookie) {
    	 return Response.json(

@@ -4,9 +4,9 @@ import {
     clearSession,
     getDiscoverySessionData,
     setIntermediateSession,
+    setOrganization,
     setSession,
 } from "@/utils/sessionManagement";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 function redirectToSMSMFA(organization, member, mfa_required) {
@@ -85,10 +85,7 @@ export async function GET(request, { params }) {
    		 clearSession();
 
    		 // Set org id as a cookie
-   		 cookies().set("organization_id", organization.organization_id, {
-       		 httpOnly: true,
-       		 maxAge: 60 * 60,
-   		 });
+   		 setOrganization(organization.organization_id)
 
    		 mfaRequiredData = { organization, member, mfa_required };
    	 } else {
@@ -96,10 +93,7 @@ export async function GET(request, { params }) {
    		 clearIntermediateSession();
 
    		 // Set org id as a cookie
-   		 cookies().set("organization_id", organization.organization_id, {
-       		 httpOnly: true,
-       		 maxAge: 60 * 60,
-   		 });
+   		 setOrganization(organization.organization_id)
 
    		 redirectLink = `/${organization.organization_slug}/dashboard`;
    	 }

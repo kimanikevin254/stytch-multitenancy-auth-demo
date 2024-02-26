@@ -1,16 +1,16 @@
 import loadStytch from "@/utils/loadStytch";
 import {
     clearIntermediateSession,
+    getIntermediateSession,
+    setOrganization,
     setSession,
 } from "@/utils/sessionManagement";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function POST(request) {
     const stytchClient = loadStytch();
 
-    const cookieStore = cookies();
-    const intermediate_session_cookie = cookieStore.get("intermediate_session");
+    const intermediate_session_cookie = getIntermediateSession();
 
     const formData = await request.formData();
 
@@ -43,10 +43,7 @@ export async function POST(request) {
    	 clearIntermediateSession();
 
    	 // Set organization id as a cookie
-   	 cookies().set("organization_id", organization.organization_id, {
-   		 httpOnly: true,
-   		 maxAge: 60 * 60,
-   	 });
+   	 setOrganization(organization.organization_id)
 
    	 // Set org dashboard URL
    	 redirectURL = `/${organization.organization_slug}/dashboard`;

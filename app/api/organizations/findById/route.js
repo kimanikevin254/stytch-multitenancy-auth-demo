@@ -1,11 +1,10 @@
 import loadStytch from "@/utils/loadStytch";
-import { cookies } from "next/headers";
+import { getOrganization } from "@/utils/sessionManagement";
 
 export async function GET(request) {
     const stytchClient = loadStytch();
 
-    const cookieStore = cookies();
-    const organization_id_cookie = cookieStore.get("organization_id");
+    const organization_id_cookie = getOrganization();
 
     if (!organization_id_cookie) {
    	 console.log("No org id cookie");

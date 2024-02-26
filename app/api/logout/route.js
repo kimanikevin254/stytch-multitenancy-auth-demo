@@ -1,14 +1,13 @@
-import { revokeSession } from "@/utils/sessionManagement";
-import { cookies } from "next/headers";
+import { getSession, revokeSession } from "@/utils/sessionManagement";
 import { redirect } from "next/navigation";
 
 export async function GET(request) {
-    const sessionJWT = cookies().get("session")?.value;
+    const sessionJWT = getSession()
 
     if (!sessionJWT) {
    	 return redirect("/login");
     } else {
-   	 revokeSession(sessionJWT);
+   	 revokeSession(sessionJWT.value);
    	 return redirect("/login");
     }
 }

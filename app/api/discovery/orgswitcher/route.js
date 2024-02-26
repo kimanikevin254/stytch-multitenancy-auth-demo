@@ -1,11 +1,10 @@
 import loadStytch from "@/utils/loadStytch";
-import { cookies } from "next/headers";
+import { getSession } from "@/utils/sessionManagement";
 
 export async function GET(request) {
     const stytchClient = loadStytch();
 
-    const cookieStore = cookies();
-    const session_cookie = cookieStore.get("session");
+    const session_cookie = getSession();
 
     if (!session_cookie) {
    	 return Response.json(

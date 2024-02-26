@@ -2,17 +2,17 @@ import loadStytch from "@/utils/loadStytch";
 import {
     clearIntermediateSession,
     clearSession,
+    getIntermediateSession,
     setIntermediateSession,
+    setOrganization,
     setSession,
 } from "@/utils/sessionManagement";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
 export async function POST(request) {
     const stytchClient = loadStytch();
 
-    const cookieStore = cookies();
-    const intermediate_session_cookie = cookieStore.get("intermediate_session");
+	const intermediate_session_cookie = getIntermediateSession()
 
     const formData = await request.formData();
 
@@ -56,8 +56,7 @@ export async function POST(request) {
    		 email_invites: "ALL_ALLOWED",
    		 auth_methods: "RESTRICTED",
    		 allowed_auth_methods: allowedAuthMethods,
-   		 mfa_policy: require_mfa === "on" ? "REQUIRED_FOR_ALL" : "OPTIONAL",
-   		 email_invites: "ALL_ALLOWED",
+   		 mfa_policy: require_mfa === "on" ? "REQUIRED_FOR_ALL" : "OPTIONAL"
    	 });
 
    	 // Check if mfa is required and redirect appropriately
@@ -81,10 +80,7 @@ export async function POST(request) {
    		 setSession(session_jwt);
 
    		 // Set org id as a cookie
-   		 cookies().set("organization_id", organization.organization_id, {
-       		 httpOnly: true,
-       		 maxAge: 60 * 60,
-   		 });
+   		 setOrganization(organization.organization_id)
    	 }
     } catch (error) {
    	 console.log(error.message);

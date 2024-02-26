@@ -1,13 +1,12 @@
 import loadStytch from "@/utils/loadStytch";
-import { cookies } from "next/headers";
+import { getOrganization } from "@/utils/sessionManagement";
 
 export async function POST(request) {
     const stytchClient = loadStytch();
 
     const { email } = await request.json();
 
-    const cookieStore = cookies();
-    const organization_id_cookie = cookieStore.get("organization_id");
+    const organization_id_cookie = getOrganization();
 
     try {
    	 await stytchClient.magicLinks.email.invite({
